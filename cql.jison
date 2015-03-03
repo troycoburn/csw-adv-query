@@ -33,7 +33,7 @@ START : EXP EOF { return $1};
 
 EXP : 
 	EXP AND EXP {$$ = function(obj){ return ($1(obj) && $3(obj));};}
-	| EXP OR EXP {$$ = function(obj){ console.log('abc'); return ($1(obj) || $3(obj));};}
+	| EXP OR EXP {$$ = function(obj){return ($1(obj) || $3(obj));};}
 	| FIELD LIKE WORD { $$ = function(obj){return $1(obj)};}
 	| FIELD EQUALS WORD { $$ = function(obj){return $1(obj)};}
 	| OPEN EXP CLOSE { $$ = $2; }
