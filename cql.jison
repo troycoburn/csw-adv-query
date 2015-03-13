@@ -15,8 +15,7 @@
 "GT"|">"	{return "GT"}
 "LIKE"|"~"	{return "LIKE"}
 "EQUALS"|"="	{return "EQUALS"}
-
-(["'])(?:(?=(\\?))\2.)*?\1 {return "WORD"}
+\'[\s\S]+\' {return "WORD"}
 "("                   { return "OPEN" }
 ")"                   { return "CLOSE" }
 ^[_a-zA-Z:-]*\w {return 'FIELD'}
@@ -40,7 +39,7 @@ START : EXP EOF { return $1};
 EXP : 
 	EXP AND EXP {$$ = function(obj){ return ($1(obj) && $3(obj));};}
 	| EXP OR EXP {$$ = function(obj){return ($1(obj) || $3(obj));};}
-	| FIELD LIKE WORD { $$ = function(obj){return $1(obj)};}
+	| FIELD LIKE WORD { $$ = function(obj){return $1(obj) + $2(obj) + $3(obj)};}
 	| FIELD EQUALS WORD { $$ = function(obj){return $1(obj)};}
 	| FIELD LT WORD { $$ = function(obj){return $1(obj)};}
 	| FIELD LTE WORD { $$ = function(obj){return $1(obj)};}
